@@ -1,0 +1,76 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+
+@*
+    This snippet displays a list of links of the pages immediately under the top-most page in the content tree.
+    This is the home page for a standard website.
+    It also highlights the current active page/section in the navigation with the css class "current".
+*@
+
+
+	
+<nav class="navbar navbar-default navbar-bws">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+@{ var selection = CurrentPage.Site().Children.Where("Visible"); }
+
+<ul class="nav navbar-nav navbar-main">
+    @foreach (var item in selection)
+    {
+
+	if (@item.mainNav)
+    {
+        <li class="@(item.IsAncestorOrSelf(CurrentPage) ? "current" : null)">
+            <a href="@item.Url">@item.Name</a>
+        </li>
+	}else
+	{  
+	}
+			
+   }
+
+</ul>
+	
+<ul class="nav navbar-nav navbar-sub">
+    @foreach (var item in selection)
+    {
+
+	if (@item.mainNav)
+    {
+        
+	}else
+	{  
+		<li class="@(item.IsAncestorOrSelf(CurrentPage) ? "current" : null)">
+            <a href="@item.Url">@item.Name</a>
+        </li>		
+	}
+			
+   }
+
+</ul>	
+      
+      
+    </div><!-- /.navbar-collapse -->
+	
+	<div class="search">
+		<form class="navbar-search" role="search">
+          <input type="text" class="" placeholder="Search">
+        <button type="submit" class=""> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+      </form>
+	</div>
+	
+  </div><!-- /.container-fluid -->
+</nav>
